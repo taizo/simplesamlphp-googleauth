@@ -62,9 +62,9 @@ class sspmod_googleauth_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Sourc
 		$this->force_login    = $cfgParse->getBoolean('option.force_login', false);
 
 		if ($this->account_domain) {
-			$this->target = "%s/site-xrds?&hd=%s' % ($this->endpoint_prefix,$this->account_domain,);
+			$this->target = "%s/site-xrds?&hd=%s" % ($this->endpoint_prefix,$this->account_domain,);
 		} else {
-			$this->target = "%s/id' % ($this->endpoint_prefix,);
+			$this->target = "%s/id" % ($this->endpoint_prefix,);
 		}
 	}
 
