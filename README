@@ -1,0 +1,15 @@
+simplesamlphp-googleauth is a free, LGPL implementation.
+
+Copyright 2011 by Taizo ITO <taizoster@gmail.com>.
+
+	http://github.com/taizo/simplesamlphp-googleauth
+
+simplesamlphp-googleauth has the following requirements:
+	- SimpleSAMLphp
+	- Web Server such as Apache HTTP Server or lighttpd.
+
+Please make sure to read the currently available documentation for simplesamlphp-googleauth.
+
+	- INSTALL
+	- Homepage http://github.com/taizo/simplesamlphp-googleauth
+
