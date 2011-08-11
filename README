@@ -1,4 +1,4 @@
-simplesamlphp-googleauth is a free, LGPL implementation.
+simplesamlphp-googleauth is a free, LGPL implementation of Google Apps OpenID Authentication module for SimpleSAMLphp.
 
 Copyright 2011 by Taizo ITO <taizoster@gmail.com>.
 
