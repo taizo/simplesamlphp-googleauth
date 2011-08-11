@@ -18,7 +18,7 @@ require_once('Auth/OpenID/ServerRequest.php');
 /**
  * Authentication module which acts as an OpenID Consumer for Google Apps OpenID
  *
- * @author Taizo ITO <taizoster@gmail.com>
+ * @author Taizo ITO <taizoster at gmail.com>
  * @package simpleSAMLphp
  * @version $Id$
  */
