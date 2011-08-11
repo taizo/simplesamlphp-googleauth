@@ -1,2 +1,26 @@
 *** Quick install instructions (tested on CentOS/Red Hat Enterprise Linux only!) ***
 
+This software is created based on OpenID SP module for SimpleSAMLphp.
+
+1. Locate googleauth in SimpleSAMLphp's modules directory.
+
+  # cp -rf googleauth <SimpleSAMLphp-installed directory>/modules/
+
+2. Modify SimpleSAMLphp configuration.
+
+  # vi config/authsources.php
+
+    'googleauth' => array(
+        'googleauth:OpenIDConsumer',
+        'option.endpoint_prefix' => 'https://www.google.com/accounts/o8', // Optional: default:https://www.google.com/accounts/o8
+        'option.account_domain'  => 'g.example.com',                      // Optional: default:null(regard as google.com)
+        'option.force_login'     => true,                                 // Optional: default:false
+    ),
+
+
+After processing a authentication, you can get access to the following attributes.
+ - Account's firstname
+ - Account's lastname
+ - Account's email address
+
+
