@@ -1,4 +1,18 @@
 <?php
+$return_to = urldecode(preg_replace("/^.+ReturnTo=(.+)$/","\\1",$_GET["AuthState"]));
+if($return_to != "") {
+?>
+<html>
+<head>
+<meta http-equiv="Refresh" content="0; URL=<?=$return_to?>">
+</head>
+<body></body>
+</html>
+<?php
+ exit;
+}
+?>
+<?php
 
 $this->data['header'] = 'Google Apps OpenID Login';
 $this->data['autofocus'] = 'openid-identifier';
