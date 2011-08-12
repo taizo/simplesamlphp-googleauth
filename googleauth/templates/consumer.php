@@ -1,10 +1,11 @@
 <?php
 $return_to = urldecode(preg_replace("/^.+ReturnTo=(.+)$/","\\1",$_GET["AuthState"]));
+$error = isset($this->data['error']) ? $this->data['error'] : "";
 if($return_to != "") {
 ?>
 <html>
 <head>
-<meta http-equiv="Refresh" content="0; URL=<?=$return_to?>">
+<meta http-equiv="Refresh" content="0; URL='<?=$return_to?>?error=<?=urlencode(base64_encode($error))?>'">
 </head>
 <body></body>
 </html>

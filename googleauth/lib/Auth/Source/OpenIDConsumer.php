@@ -81,9 +81,10 @@ class sspmod_googleauth_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Sourc
 		$this->endpoint_prefix = $cfgParse->getString('option.endpoint_prefix', "https://www.google.com/accounts/o8");
 		$this->account_domain  = $cfgParse->getString('option.account_domain',  null);
 		$this->force_login     = $cfgParse->getBoolean('option.force_login',    false);
+		$this->account_regex   = $cfgParse->getString('option.account_regex',   null);
 
 		if ($this->account_domain !== null) {
-			$this->target = sprintf("%s/site-xrds?&hd=%s",$this->endpoint_prefix,$this->account_domain);
+			$this->target = sprintf("%s/site-xrds?hd=%s",$this->endpoint_prefix,$this->account_domain);
 		} else {
 			$this->target = sprintf("%s/id",$this->endpoint_prefix);
 		}
@@ -245,7 +246,7 @@ class sspmod_googleauth_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Sourc
 			// Authentication failed; display the error message.
 			throw new Exception("OpenID authentication failed: " . $response->message);
 		} else if ($response->status != Auth_OpenID_SUCCESS) {
-			throw new Exceptioon('General error. Try again.');
+			throw new Exception('General error. Try again.');
 		}
 
 		// This means the authentication succeeded; extract the
@@ -285,6 +286,12 @@ class sspmod_googleauth_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Sourc
 			if (isset($attributes[$key])) {
 				$attributes[$value] = $attributes[$key];
 				unset($attributes[$key]);
+			}
+		}
+
+		if ($this->account_regex !== null) {
+			if(!preg_match("/{$this->account_regex}/",$attributes["email"][0])) {
+				throw new Exception('Invalid user. Try again.');
 			}
 		}
 

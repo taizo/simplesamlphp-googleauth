@@ -15,6 +15,7 @@ This software is created based on OpenID SP module for SimpleSAMLphp.
         'option.endpoint_prefix' => 'https://www.google.com/accounts/o8', // Optional: default:https://www.google.com/accounts/o8
         'option.account_domain'  => 'g.example.com',                      // Optional: default:null(regard as google.com)
         'option.force_login'     => true,                                 // Optional: default:false
+        'option.account_regex'   => '^[a-z].+@g\.example\.com$',          // Optional: default:null
     ),
 
 
