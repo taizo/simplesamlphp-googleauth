@@ -1,0 +1,19 @@
+diff -uNr simplesamlphp-1.8.0.orig/lib/Auth/OpenID/Consumer.php simplesamlphp-1.8.0/lib/Auth/OpenID/Consumer.php
+--- simplesamlphp-1.8.0.orig/lib/Auth/OpenID/Consumer.php	2010-05-20 20:49:11.000000000 +0900
++++ simplesamlphp-1.8.0/lib/Auth/OpenID/Consumer.php	2011-08-11 13:28:00.267735934 +0900
+@@ -1155,6 +1155,7 @@
+             // common case.
+             $result = $this->_verifyDiscoverySingle($endpoint, $to_match);
+ 
++/* resolv error
+             if (Auth_OpenID::isFailure($result)) {
+                 $endpoint = $this->_discoverAndVerify($to_match->claimed_id,
+                                                       array($to_match));
+@@ -1162,6 +1163,7 @@
+                     return $endpoint;
+                 }
+             }
++*/
+         }
+ 
+         // The endpoint we return should have the claimed ID from the

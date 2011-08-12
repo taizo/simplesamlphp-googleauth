@@ -1,0 +1,30 @@
+diff -uNr simplesamlphp-1.8.0.orig/lib/SimpleSAML/Utilities.php simplesamlphp-1.8.0/lib/SimpleSAML/Utilities.php
+--- simplesamlphp-1.8.0.orig/lib/SimpleSAML/Utilities.php       2010-05-20 20:49:11.000000000 +0900
++++ simplesamlphp-1.8.0/lib/SimpleSAML/Utilities.php    2011-08-11 13:28:00.267735934 +0900
+@@ -43,10 +43,12 @@
+ 			$currenthost = 'localhost';
+ 		}
+ 
++		/***
+ 		if(strstr($currenthost, ":")) {
+ 				$currenthostdecomposed = explode(":", $currenthost);
+ 				$currenthost = $currenthostdecomposed[0];
+ 		}
++		***/
+ 		return $currenthost;# . self::getFirstPathElement() ;
+ 	}
+ 
+@@ -71,7 +73,12 @@
+ 		} elseif ($protocol == 'https') {
+ 			if ($portnumber == '443') $port = '';
+ 		}
+-			
++		if (array_key_exists('HTTP_HOST', $_SERVER)) {
++			if (preg_match("/:([0-9]+)$/",$_SERVER["HTTP_HOST"],$regs)) {
++				$portnumber = $regs[1];
++			}
++		}
++
+ 		$querystring = '';
+ 		return $protocol."://" . $currenthost . $port;
+ 	

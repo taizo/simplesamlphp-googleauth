@@ -1,0 +1,25 @@
+diff -uNr simplesamlphp-1.8.0.orig/config/config.php simplesamlphp-1.8.0/config/config.php
+--- simplesamlphp-1.8.0.orig/config/config.php	2011-04-11 17:41:02.000000000 +0900
++++ simplesamlphp-1.8.0/config/config.php	2011-05-13 12:07:23.796183230 +0900
+@@ -11,17 +11,17 @@
+ 	 * Setup the following parameters to match the directory of your installation.
+ 	 * See the user manual for more details.
+ 	 */
+-	'baseurlpath'           => 'simplesaml/',
++	'baseurlpath'           => 'simplesamlphp/',
+ 	'certdir'               => 'cert/',
+-	'loggingdir'            => 'log/',
+-	'datadir'               => 'data/',
++	'loggingdir'            => '/var/log/simplesamlphp/',
++	'datadir'               => '/var/lib/simplesamlphp/data/',
+ 
+ 	/*
+ 	 * A directory where simpleSAMLphp can save temporary files.
+ 	 *
+ 	 * SimpleSAMLphp will attempt to create this directory if it doesn't exist.
+ 	 */
+-	'tempdir'               => '/tmp/simplesaml',
++	'tempdir'               => '/var/lib/simplesamlphp/tmp',
+ 	
+ 
+ 	/*
