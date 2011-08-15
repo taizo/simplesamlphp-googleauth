@@ -59,9 +59,13 @@ class sspmod_googleauth_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Sourc
 		$cfgParse = SimpleSAML_Configuration::loadFromArray($config,
 			'Authentication source ' . var_export($this->authId, TRUE));
 
-		$this->axAttrInfo = array('http://axschema.org/namePerson/first' => 'firstname',
-			 		  'http://axschema.org/namePerson/last'  => 'lastname',
-					  'http://axschema.org/contact/email'    => 'email');
+		$this->axAttrInfo = array(
+					  'http://axschema.org/namePerson/first'     => 'firstname',
+			 		  'http://axschema.org/namePerson/last'      => 'lastname',
+					  'http://axschema.org/contact/email'        => 'email',
+					  'http://axschema.org/contact/country/home' => 'country',
+					  'http://axschema.org/pref/language'        => 'language',
+					 );
 
 		// See http://code.google.com/apis/accounts/docs/OpenID.html for details.
 		$this->requestExtArgs1 = array(
@@ -70,7 +74,9 @@ class sspmod_googleauth_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Sourc
 			 		       'openid.ax.type.firstname' => 'http://axschema.org/namePerson/first',
 			 		       'openid.ax.type.lastname'  => 'http://axschema.org/namePerson/last',
 			 		       'openid.ax.type.email'     => 'http://axschema.org/contact/email',
-			 		       'openid.ax.required'       => 'firstname,lastname,email',
+			 		       'openid.ax.type.country'   => 'http://axschema.org/contact/country/home',
+			 		       'openid.ax.type.language'  => 'http://axschema.org/pref/language',
+			 		       'openid.ax.required'       => 'firstname,lastname,email,country,language',
 			 		       'openid.ns.pape'           => 'http://specs.openid.net/extensions/pape/1.0',
 
 			 		       'openid.ns.ui'             => 'http://specs.openid.net/extensions/ui/1.0',
@@ -88,7 +94,7 @@ class sspmod_googleauth_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Sourc
 		// OAuth extension
 		$this->requestExtArgs3 = array(
 					       'openid.ns.ext2'           => 'http://specs.openid.net/extensions/oauth/1.0',
-			 		       'openid.ext2.consumer'     => 'our.domain.com',
+			 		       'openid.ext2.consumer'     => 'your.example.com',
 			 		       'openid.ext2.scope'        => 'https://mail.google.com/mail/feed/atom',
 					      );
 
