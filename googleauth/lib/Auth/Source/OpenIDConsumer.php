@@ -63,20 +63,35 @@ class sspmod_googleauth_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Sourc
 			 		  'http://axschema.org/namePerson/last'  => 'lastname',
 					  'http://axschema.org/contact/email'    => 'email');
 
-		$this->requestExtArgs1 = array('openid.ns.ax'                    => 'http://openid.net/srv/ax/1.0',
-			 		       'openid.ax.mode'                  => 'fetch_request',
-			 		       'openid.ax.type.namePerson_first' => 'http://axschema.org/namePerson/first',
-			 		       'openid.ax.type.namePerson_last'  => 'http://axschema.org/namePerson/last',
-			 		       'openid.ax.type.contact_email'    => 'http://axschema.org/contact/email',
-			 		       'openid.ax.required'              => 'namePerson_first,namePerson_last,contact_email',
-			 		       'openid.ns.pape'                  => 'http://specs.openid.net/extensions/pape/1.0');
-        
-		$this->requestExtArgs2 = array('openid.pape.max_auth_age'        => '0',
-			 		       'openid.ns.ui'                    => 'http://specs.openid.net/extensions/ui/1.0');
+		// See http://code.google.com/apis/accounts/docs/OpenID.html for details.
+		$this->requestExtArgs1 = array(
+					       'openid.ns.ax'             => 'http://openid.net/srv/ax/1.0',
+			 		       'openid.ax.mode'           => 'fetch_request',
+			 		       'openid.ax.type.firstname' => 'http://axschema.org/namePerson/first',
+			 		       'openid.ax.type.lastname'  => 'http://axschema.org/namePerson/last',
+			 		       'openid.ax.type.email'     => 'http://axschema.org/contact/email',
+			 		       'openid.ax.required'       => 'firstname,lastname,email',
+			 		       'openid.ns.pape'           => 'http://specs.openid.net/extensions/pape/1.0',
 
-		$this->requestExtArgs3 = array('openid.ui.mode'                  => 'popup',
-			 		       'openid.identity'                 => 'http://specs.openid.net/auth/2.0/identifier_select',
-			 		       'openid.claimed_id'               => 'http://specs.openid.net/auth/2.0/identifier_select');
+			 		       'openid.ns.ui'             => 'http://specs.openid.net/extensions/ui/1.0',
+
+					       'openid.ui.mode'           => 'popup',
+			 		       'openid.identity'          => 'http://specs.openid.net/auth/2.0/identifier_select',
+			 		       'openid.claimed_id'        => 'http://specs.openid.net/auth/2.0/identifier_select',
+					      );
+
+		// PAPE extension
+		$this->requestExtArgs2 = array(
+					       'openid.pape.max_auth_age' => '0',
+					      );
+
+		// OAuth extension
+		$this->requestExtArgs3 = array(
+					       'openid.ns.ext2'           => 'http://specs.openid.net/extensions/oauth/1.0',
+			 		       'openid.ext2.consumer'     => 'our.domain.com',
+			 		       'openid.ext2.scope'        => 'https://mail.google.com/mail/feed/atom',
+					      );
+
 
 		$this->endpoint_prefix = $cfgParse->getString('option.endpoint_prefix', "https://www.google.com/accounts/o8");
 		$this->account_domain  = $cfgParse->getString('option.account_domain',  null);
@@ -186,10 +201,6 @@ class sspmod_googleauth_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Sourc
 			}
 		}
  
-		foreach ($this->requestExtArgs3 as $key => $value) {
-			$auth_request->addExtensionArg(Auth_OpenID_BARE_NS, $key, $value);
-		}
-
 		// Redirect the user to the OpenID server for authentication.
 		// Store the token for this authentication so we can verify the
 		// response.
