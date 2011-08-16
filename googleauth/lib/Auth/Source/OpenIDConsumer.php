@@ -61,12 +61,20 @@ class sspmod_googleauth_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Sourc
 			'Authentication source ' . var_export($this->authId, TRUE));
 
 		$this->axAttrInfo = array(
-					  'http://axschema.org/namePerson/first'     => 'firstname',
-			 		  'http://axschema.org/namePerson/last'      => 'lastname',
-					  'http://axschema.org/contact/email'        => 'email',
-					  'http://axschema.org/contact/country/home' => 'country',
-					  'http://axschema.org/pref/language'        => 'language',
+					  'http://axschema.org/namePerson/first'        => 'firstname',
+			 		  'http://axschema.org/namePerson/last'         => 'lastname',
+					  'http://axschema.org/contact/email'           => 'email',
+
+					  'http://axschema.org/namePerson/friendly'     => 'nickname',
+					  'http://axschema.org/namePerson'              => 'fullname',
+					  'http://axschema.org/birthDate'               => 'dob',
+					  'http://axschema.org/person/gender'           => 'gender',
+					  'http://axschema.org/contact/country/home'    => 'country',
+					  'http://axschema.org/contact/postalCode/home' => 'postcode',
+					  'http://axschema.org/pref/language'           => 'language',
+					  'http://axschema.org/pref/timezone'           => 'timezone',
 					 );
+
 
 		// See http://code.google.com/apis/accounts/docs/OpenID.html for details.
 		$this->requestExtArgs = array(
@@ -75,9 +83,18 @@ class sspmod_googleauth_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Sourc
 			 		       'openid.ax.type.firstname' => 'http://axschema.org/namePerson/first',
 			 		       'openid.ax.type.lastname'  => 'http://axschema.org/namePerson/last',
 			 		       'openid.ax.type.email'     => 'http://axschema.org/contact/email',
+
+			 		       'openid.ax.type.nickname'  => 'http://axschema.org/namePerson/friendly',
+					       'openid.ax.type.fullname'  => 'http://axschema.org/namePerson',
+					       'openid.ax.type.dob'       => 'http://axschema.org/birthDate',
+					       'openid.ax.type.gender'    => 'http://axschema.org/person/gender',
 			 		       'openid.ax.type.country'   => 'http://axschema.org/contact/country/home',
+					       'openid.ax.type.postcode'  => 'http://axschema.org/contact/postalCode/home',
 			 		       'openid.ax.type.language'  => 'http://axschema.org/pref/language',
-			 		       'openid.ax.required'       => 'firstname,lastname,email,country,language',
+					       'openid.ax.type.timezone'  => 'http://axschema.org/pref/timezone',
+
+			 		       'openid.ax.required'       => 'firstname,lastname,email,language,nickname,fullname,dob,gender,country,timezone,postcode',
+					       'openid.ax.if_available'   => 'dob,gender,language,timezone,postcode',
 			 		       'openid.ns.pape'           => 'http://specs.openid.net/extensions/pape/1.0',
 
 			 		       'openid.ns.ui'             => 'http://specs.openid.net/extensions/ui/1.0',
@@ -86,6 +103,7 @@ class sspmod_googleauth_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Sourc
 			 		       'openid.identity'          => 'http://specs.openid.net/auth/2.0/identifier_select',
 			 		       'openid.claimed_id'        => 'http://specs.openid.net/auth/2.0/identifier_select',
 					      );
+
 
 		// PAPE extension
 		$this->requestExtArgs_PAPE = array(
