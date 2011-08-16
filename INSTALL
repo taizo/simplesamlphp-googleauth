@@ -12,10 +12,11 @@ This software is created based on OpenID SP module for SimpleSAMLphp.
 
     'googleauth' => array(
         'googleauth:OpenIDConsumer',
-        'option.endpoint_prefix' => 'https://www.google.com/accounts/o8', // Optional: default:https://www.google.com/accounts/o8
-        'option.account_domain'  => 'g.example.com',                      // Optional: default:null(regard as google.com)
-        'option.force_login'     => true,                                 // Optional: default:false
-        'option.account_regex'   => '^[a-z].+@g\.example\.com$',          // Optional: default:null
+        'uri.endpoint_prefix'  => 'https://www.google.com/accounts/o8', // Optional: default:https://www.google.com/accounts/o8
+        'account.domain'       => 'g.example.com',                      // Optional: default:null(regard as google.com)
+        'account.valid_regex'  => '^[a-z].+@g\.example\.com$',          // Optional: default:null
+        'request.force_login'  => true,                                 // Optional: default:false
+        'request.ext_ax_type'  => true,                                 // Optional: default:false
     ),
 
 

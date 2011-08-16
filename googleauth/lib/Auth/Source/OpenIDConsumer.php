@@ -41,9 +41,10 @@ class sspmod_googleauth_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Sourc
 	/**
 	 * List of optional attributes.
 	 */
-	private $endpoint_prefix;
-	private $account_domain;
-	private $force_login;
+	private $uriEndpointPrefix;
+	private $accountDomain;
+	private $accountValidRegex;
+	private $requestForceLogin;
 
 	/**
 	 * Constructor for this authentication source.
@@ -68,7 +69,7 @@ class sspmod_googleauth_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Sourc
 					 );
 
 		// See http://code.google.com/apis/accounts/docs/OpenID.html for details.
-		$this->requestExtArgs1 = array(
+		$this->requestExtArgs = array(
 					       'openid.ns.ax'             => 'http://openid.net/srv/ax/1.0',
 			 		       'openid.ax.mode'           => 'fetch_request',
 			 		       'openid.ax.type.firstname' => 'http://axschema.org/namePerson/first',
@@ -87,27 +88,32 @@ class sspmod_googleauth_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Sourc
 					      );
 
 		// PAPE extension
-		$this->requestExtArgs2 = array(
+		$this->requestExtArgs_PAPE = array(
 					       'openid.pape.max_auth_age' => '0',
 					      );
 
 		// OAuth extension
-		$this->requestExtArgs3 = array(
+		$this->requestExtArgs_OAuth = array(
 					       'openid.ns.ext2'           => 'http://specs.openid.net/extensions/oauth/1.0',
 			 		       'openid.ext2.consumer'     => 'your.example.com',
 			 		       'openid.ext2.scope'        => 'https://mail.google.com/mail/feed/atom',
 					      );
 
 
-		$this->endpoint_prefix = $cfgParse->getString('option.endpoint_prefix', "https://www.google.com/accounts/o8");
-		$this->account_domain  = $cfgParse->getString('option.account_domain',  null);
-		$this->force_login     = $cfgParse->getBoolean('option.force_login',    false);
-		$this->account_regex   = $cfgParse->getString('option.account_regex',   null);
+		$this->uriEndpointPrefix = $cfgParse->getString('uri.endpoint_prefix', "https://www.google.com/accounts/o8");
+		$this->accountDomain     = $cfgParse->getString('account.domain',      null);
+		$this->accountValidRegex = $cfgParse->getString('account.valid_regex', null);
+		$this->requestForceLogin = $cfgParse->getBoolean('request.force_login', false);
+		$this->requestExtAXType  = $cfgParse->getBoolean('request.ext_ax_type', false);
 
-		if ($this->account_domain !== null) {
-			$this->target = sprintf("%s/site-xrds?hd=%s",$this->endpoint_prefix,$this->account_domain);
+		if ($this->requestExtAXType == false) {
+			$this->requestExtArgs['openid.ax.required'] = 'firstname,lastname,email';
+		}
+
+		if ($this->accountDomain !== null) {
+			$this->target = sprintf("%s/site-xrds?hd=%s",$this->uriEndpointPrefix,$this->accountDomain);
 		} else {
-			$this->target = sprintf("%s/id",$this->endpoint_prefix);
+			$this->target = sprintf("%s/id",$this->uriEndpointPrefix);
 		}
 	}
 
@@ -197,12 +203,12 @@ class sspmod_googleauth_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Sourc
 			throw new Exception("Authentication error; not a valid OpenID.");
 		}
 
-		foreach ($this->requestExtArgs1 as $key => $value) {
+		foreach ($this->requestExtArgs as $key => $value) {
 			$auth_request->addExtensionArg(Auth_OpenID_BARE_NS, $key, $value);
 		}
 
-		if ($this->force_login !== false) {
-			foreach ($this->requestExtArgs2 as $key => $value) {
+		if ($this->requestForceLogin !== false) {
+			foreach ($this->requestExtArgs_PAPE as $key => $value) {
 				$auth_request->addExtensionArg(Auth_OpenID_BARE_NS, $key, $value);
 			}
 		}
@@ -306,8 +312,8 @@ class sspmod_googleauth_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Sourc
 			}
 		}
 
-		if ($this->account_regex !== null) {
-			if(!preg_match("/{$this->account_regex}/",$attributes["email"][0])) {
+		if ($this->accountValidRegex !== null) {
+			if(!preg_match("/{$this->accountValidRegex}/",$attributes["email"][0])) {
 				throw new Exception('Invalid user. Try again.');
 			}
 		}
