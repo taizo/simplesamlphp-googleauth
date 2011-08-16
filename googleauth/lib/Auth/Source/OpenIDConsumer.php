@@ -123,6 +123,7 @@ class sspmod_googleauth_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Sourc
 		$this->accountValidRegex = $cfgParse->getString('account.valid_regex', null);
 		$this->requestForceLogin = $cfgParse->getBoolean('request.force_login', false);
 		$this->requestExtAXType  = $cfgParse->getBoolean('request.ext_ax_type', false);
+		$this->accountConvRulesFile = $cfgParse->getString('account.conversion_rules_file', null);
 
 		if ($this->requestExtAXType == false) {
 			$this->requestExtArgs['openid.ax.required'] = 'firstname,lastname,email';
@@ -331,8 +332,17 @@ class sspmod_googleauth_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Sourc
 		}
 
 		if ($this->accountValidRegex !== null) {
-			if(!preg_match("/{$this->accountValidRegex}/",$attributes["email"][0])) {
+			if (!preg_match("/{$this->accountValidRegex}/",$attributes["email"][0])) {
 				throw new Exception('Invalid user. Try again.');
+			}
+		}
+
+		if ($this->accountConvRulesFile !== null && file_exists($this->accountConvRulesFile)) {
+			foreach (file($this->accountConvRulesFile) as $_line) {
+				$fields = preg_split("/[[:blank:]]+/",$_line);
+				if (preg_match("/^{$fields[0]}$/",$attributes["email"][0])) {
+					$attributes['aliasname'] = trim($fields[1]);
+				}
 			}
 		}
 

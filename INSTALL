@@ -12,12 +12,26 @@ This software is created based on OpenID SP module for SimpleSAMLphp.
 
     'googleauth' => array(
         'googleauth:OpenIDConsumer',
-        'uri.endpoint_prefix'  => 'https://www.google.com/accounts/o8', // Optional: default:https://www.google.com/accounts/o8
-        'account.domain'       => 'g.example.com',                      // Optional: default:null(regard as google.com)
-        'account.valid_regex'  => '^[a-z].+@g\.example\.com$',          // Optional: default:null
-        'request.force_login'  => true,                                 // Optional: default:false
-        'request.ext_ax_type'  => true,                                 // Optional: default:false
+        'uri.endpoint_prefix'           => 'https://www.google.com/accounts/o8', // Optional: default:https://www.google.com/accounts/o8
+        'account.domain'                => 'g.example.com',                      // Optional: default:null(regard as google.com)
+        'account.valid_regex'           => '^[a-z].+@g\.example\.com$',          // Optional: default:null
+        'account.conversion_rules_file' => '/path/to/listfile.txt',              // Optional: default:null
+        'request.force_login'           => true,                                 // Optional: default:false
+        'request.ext_ax_type'           => true,                                 // Optional: default:false
     ),
+
+    uri.endpoint_prefix
+         Specify a prefix of Google's site XRDS URL. If not set, the default value will be specified.
+
+    account.domain
+         Specify your hosted domain for Google's site XRDS URL. If not set, 'gmail.com' is default.
+
+    account.valid_regex
+         Specify a string of regular expression for valid user's email. If not set, it will be not restricted.
+
+    account.conversion_rules_file
+         Specify the absolute name of a file that will hold the conversion rules for username.
+         If matches this rule, the converted username will be set as a key 'aliasname' of the attributes.
 
 
 After processing a authentication, you can get access to the following attributes.
