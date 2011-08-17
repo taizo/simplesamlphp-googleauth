@@ -348,7 +348,7 @@ class sspmod_googleauth_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Sourc
 		}
 
 		if ($this->accountAutoConvRule !== null && preg_match("#^/(.+)/(.+)/(.*)$#",$this->accountAutoConvRule,$regs)) {
-			$attributes["email"][0] = preg_replace("#{$regs[1]}#{$regs[3]}",$regs[2],$attributes["email"][0]);
+			$attributes["aliasname"] = preg_replace("#{$regs[1]}#{$regs[3]}",$regs[2],$attributes["email"][0]);
 		}
 
 		SimpleSAML_Logger::debug('OpenID Returned Attributes: '. implode(", ",array_keys($attributes)));
