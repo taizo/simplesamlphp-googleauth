@@ -16,6 +16,7 @@ This software is created based on OpenID SP module for SimpleSAMLphp.
         'account.domain'                => 'g.example.com',                      // Optional: default:null(regard as google.com)
         'account.valid_regex'           => '^[a-z].+@g\.example\.com$',          // Optional: default:null
         'account.conversion_rules_file' => '/path/to/listfile.txt',              // Optional: default:null
+        'account.auto_conversion_rule' => "/@g\.example\.com$/@example.net/i",   // Optional: default:null
         'request.force_login'           => true,                                 // Optional: default:false
         'request.ext_ax_type'           => true,                                 // Optional: default:false
     ),

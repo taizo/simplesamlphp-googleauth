@@ -124,6 +124,7 @@ class sspmod_googleauth_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Sourc
 		$this->requestForceLogin = $cfgParse->getBoolean('request.force_login', false);
 		$this->requestExtAXType  = $cfgParse->getBoolean('request.ext_ax_type', false);
 		$this->accountConvRulesFile = $cfgParse->getString('account.conversion_rules_file', null);
+		$this->accountAutoConvRule  = $cfgParse->getString('account.auto_conversion_rule',  null);
 
 		if ($this->requestExtAXType == false) {
 			$this->requestExtArgs['openid.ax.required'] = 'firstname,lastname,email';
@@ -344,6 +345,10 @@ class sspmod_googleauth_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Sourc
 					$attributes['aliasname'] = trim($fields[1]);
 				}
 			}
+		}
+
+		if ($this->accountAutoConvRule !== null && preg_match("#^/(.+)/(.+)/(.*)$#",$this->accountAutoConvRule,$regs)) {
+			$attributes["email"][0] = preg_replace("#{$regs[1]}#{$regs[3]}",$regs[2],$attributes["email"][0]);
 		}
 
 		SimpleSAML_Logger::debug('OpenID Returned Attributes: '. implode(", ",array_keys($attributes)));
