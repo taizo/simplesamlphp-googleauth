@@ -343,6 +343,7 @@ class sspmod_googleauth_Auth_Source_OpenIDConsumer extends SimpleSAML_Auth_Sourc
 				$fields = preg_split("/[[:blank:]]+/",$_line);
 				if (preg_match("/^{$fields[0]}$/",$attributes["email"][0])) {
 					$attributes['aliasname'] = trim($fields[1]);
+					break;
 				}
 			}
 		}
