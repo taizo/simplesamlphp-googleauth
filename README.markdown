@@ -6,6 +6,7 @@ Authentication module for SimpleSAMLphp.
 Requirements
 ============
 simplesamlphp-googleauth has the following requirements:
+
 * SimpleSAMLphp
 * Web Server such as Apache HTTP Server or lighttpd.
 
@@ -23,6 +24,7 @@ GNU Lesser General Public License
 Acknowledgements
 ================
 We want to thank so much the contributers of these projects:
+
 * [SimpleSAMLphp](http://simplesamlphp.org) 
 * [PHP](http://www.php.net)
 
